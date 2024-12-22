@@ -1,6 +1,5 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from data import *
-from database import *
 
 
 app = Flask(__name__)
@@ -9,16 +8,27 @@ app = Flask(__name__)
 def dashboard():
     return render_template("dashboard.html")
 
-
-@app.route('/login')
-def login():
-    return render_template("login.html")
-
-
 # api end points
 @app.route('/get_years')
 def getYears():
     data = dataSets().getYear()
+    return jsonify(data)
+
+@app.route('/get_regions')
+def getRegions():
+    data = dataSets().getRegion()
+    return jsonify(data)
+
+@app.route('/get_dengue')
+def getDengueData():
+    # Get the filter parameters from the query string
+    month = request.args.get('month', default=None, type=str)
+    year = request.args.get('year', default=None, type=int)
+    region = request.args.get('region', default=None, type=str)
+
+    # Use the parameters in your data fetching function
+    data = dataSets().getDengue(month, year, region)
+
     return jsonify(data)
 
 
