@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from data import *
+from database import *
 
 
 app = Flask(__name__)
@@ -7,6 +8,11 @@ app = Flask(__name__)
 @app.route('/')
 def dashboard():
     return render_template("dashboard.html")
+
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
 
 
 # api end points
