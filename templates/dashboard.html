@@ -7,7 +7,45 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row mt-2">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <!-- Dropdown for Months -->
+                <div class="dropdown">
+                    <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Months
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            
+                <!-- Dropdown for Regions -->
+                <div class="dropdown">
+                    <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Regions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            
+                <!-- Spacer -->
+                <div class="ms-auto d-flex gap-2">
+                    <!-- Buttons -->
+                    <button class="btn btn-outline-secondary">All</button>
+                    <button class="btn btn-outline-secondary">2016</button>
+                    <button class="btn btn-outline-secondary">2017</button>
+                    <button class="btn btn-outline-secondary">2018</button>
+                    <button class="btn btn-outline-secondary">2019</button>
+                    <button class="btn btn-outline-secondary">2020</button>
+                </div>
+            </div>
+            
+            
             <div class="col-12">
                 <div class="row g-2 text-muted">
                     <!-- Dengue Cases -->
@@ -38,16 +76,7 @@
                             <p>Least Cases</p>
                         </div>
                     </div>
-    
-                    <!-- Year Filter Buttons -->
-                    <div class="col-12 col-md-2 d-flex flex-column">
-                        <button class="m-2 btn btn-light">All</button>
-                        <button class="m-1 btn btn-outline-secondary">2016</button>
-                        <button class="m-1 btn btn-outline-secondary">2017</button>
-                        <button class="m-1 btn btn-outline-secondary">2018</button>
-                        <button class="m-1 btn btn-outline-secondary">2019</button>
-                        <button class="m-1 btn btn-outline-secondary">2020</button>
-                    </div>
+                    
     
                     <!-- Cases Chart -->
                     <div class="col-12 col-md-10">
