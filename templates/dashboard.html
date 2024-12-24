@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
                 <!-- Dropdown for Months -->
                 <div class="dropdown">
@@ -33,18 +33,14 @@
                     </ul>
                 </div>
             
-                <!-- Spacer -->
-                <div class="ms-auto d-flex gap-2">
-                    <!-- Buttons -->
-                    <button class="btn btn-outline-secondary">All</button>
-                    <button class="btn btn-outline-secondary">2016</button>
-                    <button class="btn btn-outline-secondary">2017</button>
-                    <button class="btn btn-outline-secondary">2018</button>
-                    <button class="btn btn-outline-secondary">2019</button>
-                    <button class="btn btn-outline-secondary">2020</button>
-                </div>
+                <!-- Buttons -->
+                <button class="btn border">All</button>
+                <button class="btn border">2016</button>
+                <button class="btn border">2017</button>
+                <button class="btn border">2018</button>
+                <button class="btn border">2019</button>
+                <button class="btn border">2020</button>
             </div>
-            
             
             <div class="col-12">
                 <div class="row g-2 text-muted">
@@ -66,30 +62,37 @@
                     <div class="col-12 col-md-3">
                         <div class="border rounded p-3">
                             <h1>11,000</h1>
-                            <p>Most Cases</p>
+                            <p>No. of Most Cases</p>
                         </div>
                     </div>
                     <!-- Least Cases -->
                     <div class="col-12 col-md-3">
                         <div class="border rounded p-3">
                             <h1>100</h1>
-                            <p>Least Cases</p>
+                            <p>No. of Least Cases</p>
                         </div>
                     </div>
                     
     
                     <!-- Cases Chart -->
-                    <div class="col-12 col-md-10">
+                    <div class="col-12 col-md-6">
                         <div id="casesChart" class="border rounded p-3">
                             <!-- Chart will be rendered here -->
                         </div>
                     </div>
-                    <div class="col-12">
+
+                    <div class="col-12 col-md-6">
+                        <div id="deathChart" class="border rounded p-3">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-12">
                         <div class="container" style="width: 80%; margin: auto; padding: 20px;">
                             <h2 style="text-align: center;">Dengue Cases Heatmap - Philippine Regions</h2>
                             <div id="heatmap"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
