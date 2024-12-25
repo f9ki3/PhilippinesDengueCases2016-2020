@@ -9,64 +9,48 @@
     <div class="container">
         <div class="row mt-3">
             <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                <!-- Dropdown for Months -->
-                <div class="dropdown">
-                    <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Months
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
+                
+                <button class="btn border" onclick="reset()">Reset</button>
             
                 <!-- Dropdown for Regions -->
                 <div class="dropdown">
-                    <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Regions
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul class="dropdown-menu" id="region-buttons">
                     </ul>
                 </div>
             
                 <!-- Buttons -->
-                <button class="btn border">All</button>
-                <button class="btn border">2016</button>
-                <button class="btn border">2017</button>
-                <button class="btn border">2018</button>
-                <button class="btn border">2019</button>
-                <button class="btn border">2020</button>
+                <button class="btn border" onclick="remove_year()">All</button>
+                <div id="year-buttons" class="g-2"></div>
             </div>
             
             <div class="col-12">
                 <div class="row g-2 text-muted">
                     <!-- Dengue Cases -->
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
                             <h1>45,300</h1>
                             <p>Dengue Cases</p>
                         </div>
                     </div>
                     <!-- Dengue Death -->
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
                             <h1>2,300</h1>
                             <p>Dengue Deaths</p>
                         </div>
                     </div>
                     <!-- Most Cases -->
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
                             <h1>11,000</h1>
                             <p>No. of Most Cases</p>
                         </div>
                     </div>
                     <!-- Least Cases -->
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
                             <h1>100</h1>
                             <p>No. of Least Cases</p>

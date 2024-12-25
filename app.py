@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from data import *
+from data import dataSets
 
 
 app = Flask(__name__)
@@ -28,6 +28,28 @@ def getDengueData():
 
     # Use the parameters in your data fetching function
     data = dataSets().getDengue(month, year, region)
+
+    return jsonify(data)
+
+@app.route('/get_dengue_cases_death')
+def getDengueDataCasesDeath():
+    # Get the filter parameters from the query string
+    year = request.args.get('year', default=None, type=int)
+    region = request.args.get('region', default=None, type=str)
+
+    # Use the parameters in your data fetching function
+    data = dataSets().getDengueCasesDeath(year, region)
+
+    return jsonify(data)
+
+@app.route('/get_dengue_most_least')
+def getDengueMostLeastCases():
+    # Get the filter parameters from the query string
+    year = request.args.get('year', default=None, type=int)
+    region = request.args.get('region', default=None, type=str)
+
+    # Use the parameters in your data fetching function
+    data = dataSets().getDengueMostLeastCases(year, region)
 
     return jsonify(data)
 
