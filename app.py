@@ -22,12 +22,11 @@ def getRegions():
 @app.route('/get_dengue')
 def getDengueData():
     # Get the filter parameters from the query string
-    month = request.args.get('month', default=None, type=str)
     year = request.args.get('year', default=None, type=int)
     region = request.args.get('region', default=None, type=str)
 
     # Use the parameters in your data fetching function
-    data = dataSets().getDengue(month, year, region)
+    data = dataSets().getDengue(year, region)
 
     return jsonify(data)
 

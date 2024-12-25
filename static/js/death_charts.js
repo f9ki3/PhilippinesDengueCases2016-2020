@@ -1,31 +1,76 @@
-// Options for the Bar/Line Chart (2016-2020 Cases)
-const deathChartbarChartOptions = {
-    chart: {
-        type: "bar", // Change to "line" for a line chart
-        height: 350
-    },
-    series: [{
-        name: "Number of Death",
-        data: [150, 230, 180, 270, 320] // Data for 2016-2020
-    }],
-    xaxis: {
-        categories: ["2016", "2017", "2018", "2019", "2020"], // Years on x-axis
-        title: {
-            text: "Year"
-        }
-    },
-    yaxis: {
-        title: {
-            text: "Number of Cases"
-        }
-    },
-    title: {
-        text: "Number of Cases from 2016 to 2020",
-        align: "center"
-    }
-};
+let barChartDeath; // Declare the chart variable outside the function
 
-// Render the Bar/Line Chart
-const deathChart = new ApexCharts(document.querySelector("#deathChart"), deathChartbarChartOptions);
-deathChart.render();
+function get_dengue_death(get_dengue) {
+    $.ajax({
+        url: get_dengue,
+        method: 'GET',
+        success: function(response) {
+            const casesData = response.ph_dengue.death_series;
+            const months = response.ph_dengue.month_series;
+            const years = response.ph_dengue.year_series;
 
+            let categories, titleText;
+
+            if (months) {
+                categories = months;
+                titleText = "Number of Death by Month";
+            } else if (years) {
+                categories = years;
+                titleText = "Number of Death from 2016 to 2020";
+            } else {
+                console.error('No valid time series data found.');
+                return;
+            }
+
+            // Options for the Bar/Line Chart
+            const barChartDeathOptions = {
+                chart: {
+                    type: "bar", // Change to "line" for a line chart
+                    height: 350,
+                    toolbar: {
+                        show: false // Disable the toolbar
+                    }
+                },
+                series: [
+                    {
+                        name: "Number of Cases",
+                        data: casesData
+                    }
+                ],
+                xaxis: {
+                    categories: categories, // Months or Years on x-axis
+                    title: {
+                        text: months ? "Month" : "Year"
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: "Number of Cases"
+                    }
+                },
+                title: {
+                    text: titleText,
+                    align: "center"
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 10 // Add this property to make the bars rounded
+                    }
+                },
+                colors: ['#FF0000'] // Set the bar color to red
+            };
+
+            // Destroy the existing chart if it exists
+            if (barChartDeath) {
+                barChartDeath.destroy();
+            }
+
+            // Render the Bar/Line Chart
+            barChartDeath = new ApexCharts(document.querySelector("#deathChart"), barChartDeathOptions);
+            barChartDeath.render();
+        },
+        error: function(error) {
+            console.error('Error fetching dengue data:', error);
+        }
+    });
+}

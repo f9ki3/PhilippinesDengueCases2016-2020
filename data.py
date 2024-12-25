@@ -1,14 +1,7 @@
 import csv
 
 class dataSets():
-    def getDengue(self, month=None, year=None, region=None):
-        # Define the month order for sorting
-        month_order = {
-            "January": 1, "February": 2, "March": 3, "April": 4,
-            "May": 5, "June": 6, "July": 7, "August": 8,
-            "September": 9, "October": 10, "November": 11, "December": 12
-        }
-
+    def getDengue(self, year=None, region=None):
         # Open the CSV file in read mode
         with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as file:
             # Read the file using csv.reader
@@ -24,14 +17,10 @@ class dataSets():
                     "month": row[0].strip(),  # Month is in the first column (index 0)
                     "year": row[1].strip(),   # Year is in the second column (index 1)
                     "region": row[2].strip(), # Region is in the third column (index 2)
-                    "cases": row[3].strip(),  # Cases are in the fourth column (index 3)
-                    "death": row[4].strip()   # Death is in the fifth column (index 4)
+                    "cases": int(row[3].strip()),  # Cases are in the fourth column (index 3)
+                    "death": int(row[4].strip())   # Death is in the fifth column (index 4)
                 }
                 data.append(record)
-
-        # Filter by month if provided
-        if month:
-            data = [record for record in data if record["month"].lower() == month.lower()]
 
         # Filter by year if provided
         if year:
@@ -41,11 +30,64 @@ class dataSets():
         if region:
             data = [record for record in data if record["region"].lower() == region.lower()]
 
-        # Sort data by month and region
-        sorted_data = sorted(data, key=lambda x: (month_order[x["month"]], x["region"]))
+        # Sum cases and deaths by year if no specific year or region is provided
+        if not year and not region:
+            summary = {}
+            for record in data:
+                if record["year"] not in summary:
+                    summary[record["year"]] = {"cases": 0, "death": 0}
+                summary[record["year"]]["cases"] += record["cases"]
+                summary[record["year"]]["death"] += record["death"]
 
-        # Convert the sorted data to the required JSON format
-        response = {"ph_dengue": sorted_data}
+            # Convert the summary to the required JSON format
+            response = {
+                "ph_dengue": {
+                    "cases_series": [summary[year]["cases"] for year in summary],
+                    "death_series": [summary[year]["death"] for year in summary],
+                    "year_series": list(summary.keys())
+                }
+            }
+        elif year:
+            # Sum cases and deaths by month if year is provided
+            summary = {}
+            for record in data:
+                if record["month"] not in summary:
+                    summary[record["month"]] = {"cases": 0, "death": 0}
+                summary[record["month"]]["cases"] += record["cases"]
+                summary[record["month"]]["death"] += record["death"]
+
+            # Convert the summary to the required JSON format
+            response = {
+                "ph_dengue": {
+                    "cases_series": [summary[month]["cases"] for month in summary],
+                    "death_series": [summary[month]["death"] for month in summary],
+                    "month_series": list(summary.keys())
+                }
+            }
+        elif region:
+            # Sum cases and deaths by month if region is provided
+            summary = {}
+            for record in data:
+                if record["month"] not in summary:
+                    summary[record["month"]] = {"cases": 0, "death": 0}
+                summary[record["month"]]["cases"] += record["cases"]
+                summary[record["month"]]["death"] += record["death"]
+
+            # Convert the summary to the required JSON format
+            response = {
+                "ph_dengue": {
+                    "cases_series": [summary[month]["cases"] for month in summary],
+                    "death_series": [summary[month]["death"] for month in summary],
+                    "month_series": list(summary.keys())
+                }
+            }
+        else:
+            # Sort data by month and region
+            sorted_data = sorted(data, key=lambda x: (x["year"], x["region"]))
+
+            # Convert the sorted data to the required JSON format
+            response = {"ph_dengue": sorted_data}
+
         return response
     
     def getDengueCasesDeath(self, year=None, region=None):

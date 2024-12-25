@@ -37,6 +37,8 @@ function config(){
             console.error('Error fetching dengue data:', error);
         }
     });
+    get_dengue_cases(get_dengue)
+    get_dengue_death(get_dengue)
 
     console.log(get_dengue);
     console.log(get_dengue_cases_death);
