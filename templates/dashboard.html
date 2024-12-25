@@ -8,22 +8,34 @@
 <body>
     <div class="container">
         <div class="row mt-3">
-            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                
-                <button class="btn border" onclick="reset()">Reset</button>
-            
-                <!-- Dropdown for Regions -->
-                <div class="dropdown">
-                    <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Regions
-                    </button>
-                    <ul class="dropdown-menu" id="region-buttons">
-                    </ul>
+            <h2 class="fw-bolder mb-3">Philippine Dengue Cases from 2016-2020</h2>
+            <div class="row">
+                <div class="col-6">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                        <button class="btn me-1 border">Dashboard</button>
+                        <button class="btn me-1 border">Prediction</button>
+                        <button class="btn me-1 border">FAQS</button>
+                    </div>
                 </div>
-            
-                <!-- Buttons -->
-                <button class="btn border" onclick="remove_year()">All</button>
-                <div id="year-buttons" class="g-2"></div>
+                <div class="col-6">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                
+                        <button class="btn border" onclick="reset()">Reset</button>
+                    
+                        <!-- Dropdown for Regions -->
+                        <div class="dropdown">
+                            <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Regions
+                            </button>
+                            <ul class="dropdown-menu" id="region-buttons">
+                            </ul>
+                        </div>
+                    
+                        <!-- Buttons -->
+                        <button class="btn border" onclick="remove_year()">All</button>
+                        <div id="year-buttons" class="g-2"></div>
+                    </div>
+                </div>
             </div>
             
             <div class="col-12">
@@ -31,29 +43,29 @@
                     <!-- Dengue Cases -->
                     <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
-                            <h1>45,300</h1>
+                            <h1 id="cases">0</h1>
                             <p>Dengue Cases</p>
                         </div>
                     </div>
                     <!-- Dengue Death -->
                     <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
-                            <h1>2,300</h1>
+                            <h1 id="death">0</h1>
                             <p>Dengue Deaths</p>
                         </div>
                     </div>
                     <!-- Most Cases -->
                     <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
-                            <h1>11,000</h1>
-                            <p>No. of Most Cases</p>
+                            <h1 id="mostNo">0</h1>
+                            <p id="mostRegion">Most Cases</p>
                         </div>
                     </div>
                     <!-- Least Cases -->
                     <div class="col-6 col-md-3">
                         <div class="border rounded p-3">
-                            <h1>100</h1>
-                            <p>No. of Least Cases</p>
+                            <h1 id="leastNo">0</h1>
+                            <p id="leastRegion">Least Cases</p>
                         </div>
                     </div>
                     

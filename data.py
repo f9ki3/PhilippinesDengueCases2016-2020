@@ -79,15 +79,10 @@ class dataSets():
         if region:
             data = {k: v for k, v in data.items() if k[1].lower() == region.lower()}
 
-        # If no year and region are provided, sum all cases and deaths
-        if not year and not region:
-            total_cases = sum(v["cases"] for v in data.values())
-            total_deaths = sum(v["death"] for v in data.values())
-            response = {"ph_dengue": {"total_cases": total_cases, "total_deaths": total_deaths}}
-        else:
-            # Convert the data to the required JSON format
-            sorted_data = [{"cases": v["cases"], "death": v["death"]} for k, v in data.items()]
-            response = {"ph_dengue": sorted_data}
+        # Sum cases and deaths
+        total_cases = sum(v["cases"] for v in data.values())
+        total_deaths = sum(v["death"] for v in data.values())
+        response = {"ph_dengue": {"total_cases": total_cases, "total_deaths": total_deaths}}
 
         return response
     
