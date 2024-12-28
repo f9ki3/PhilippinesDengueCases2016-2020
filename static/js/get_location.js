@@ -4,7 +4,7 @@ $(document).ready(function() {
         method: 'GET',
         success: function(data) {
             data.locations.forEach(function(region) {
-                var button = $('<li><a class="dropdown-item">' + region + '</a></li>');
+                var button = $('<li style="cursor: pointer"><a class="dropdown-item">' + region + '</a></li>');
                 $('#location-buttons').append(button);
             });
         },
