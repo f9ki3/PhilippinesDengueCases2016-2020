@@ -5,34 +5,30 @@
     <title>Philippine Dengue Cases 2016 - 2020</title>
     {% include "header.html" %}
 </head>
-<body>
+<body class="bg-dark-blue">
     <div class="container">
         <div class="row mt-4">
-            <h2 class="fw-bolder mb-3">Philippine Dengue Cases from 2016-2020</h2>
+            <h2 class="fw-bolder text-light mb-3">Region IV-A Dengue Cases: Regional Report and Insights</h2>
             <div class="row">
-                <div class="col-6">
-                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                        <button class="btn me-1 border">Dashboard</button>
-                        <button class="btn me-1 border">Prediction</button>
-                        <button class="btn me-1 border">FAQS</button>
+                <div class="col-12 col-md-6 mb-2">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <button class="btn me-1 bg-accent-blue text-light">Dashboard</button>
+                        <button class="btn me-1 bg-accent-blue text-light">Prediction</button>
+                        <button class="btn me-1 bg-accent-blue text-light">FAQS</button>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                
-                        <button class="btn ms-1 border" onclick="reset()">Reset</button>
-                    
+                <div class="col-12 col-md-6 mb-2">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <button class="btn ms-1 bg-accent-blue text-light" onclick="reset()">Reset</button>
                         <!-- Dropdown for Regions -->
                         <div class="dropdown">
-                            <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Regions
+                            <button class="btn bg-accent-blue text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Locations
                             </button>
-                            <ul class="dropdown-menu" id="region-buttons">
+                            <ul class="dropdown-menu" id="location-buttons">
                             </ul>
                         </div>
-                    
                         <!-- Buttons -->
-                        <button class="btn border" onclick="remove_year()">All</button>
                         <div id="year-buttons" class="g-2"></div>
                     </div>
                 </div>
@@ -42,28 +38,28 @@
                 <div class="row g-2 text-muted">
                     <!-- Dengue Cases -->
                     <div class="col-6 col-md-3">
-                        <div class="border rounded p-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
                             <h1 id="cases">0</h1>
                             <p>Dengue Cases</p>
                         </div>
                     </div>
                     <!-- Dengue Death -->
                     <div class="col-6 col-md-3">
-                        <div class="border rounded p-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
                             <h1 id="death">0</h1>
                             <p>Dengue Deaths</p>
                         </div>
                     </div>
                     <!-- Most Cases -->
                     <div class="col-6 col-md-3">
-                        <div class="border rounded p-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
                             <h1 id="mostNo">0</h1>
                             <p id="mostRegion">Most Cases</p>
                         </div>
                     </div>
                     <!-- Least Cases -->
                     <div class="col-6 col-md-3">
-                        <div class="border rounded p-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
                             <h1 id="leastNo">0</h1>
                             <p id="leastRegion">Least Cases</p>
                         </div>
@@ -72,13 +68,13 @@
     
                     <!-- Cases Chart -->
                     <div class="col-12 col-md-6">
-                        <div id="casesChart" class="border rounded p-3">
+                        <div id="casesChart" class="bg-accent-blue text-light rounded p-3">
                             <!-- Chart will be rendered here -->
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6">
-                        <div id="deathChart" class="border rounded p-3">
+                        <div id="deathChart" class="bg-accent-blue text-light rounded p-3">
                             <!-- Chart will be rendered here -->
                         </div>
                     </div>

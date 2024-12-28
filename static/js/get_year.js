@@ -4,7 +4,7 @@ $(document).ready(function() {
         method: 'GET',
         success: function(data) {
             data.years.forEach(function(year) {
-                var button = $('<button class="btn border me-2"></button>').text(year);
+                var button = $('<button class="btn bg-accent-blue text-light me-2"></button>').text(year);
                 button.on('click', function() {
                     localStorage.setItem('selectedYear', year);
                     config()

@@ -5,7 +5,7 @@ function get_dengue_death(get_dengue) {
         url: get_dengue,
         method: 'GET',
         success: function(response) {
-            const casesData = response.ph_dengue.death_series;
+            const casesData = response.ph_dengue.deaths_series;
             const months = response.ph_dengue.month_series;
             const years = response.ph_dengue.year_series;
 
@@ -40,24 +40,43 @@ function get_dengue_death(get_dengue) {
                 xaxis: {
                     categories: categories, // Months or Years on x-axis
                     title: {
-                        text: months ? "Month" : "Year"
+                        text: months ? "Month" : "Year",
+                        style: {
+                            color: '#ffffff' // Set the title color to white
+                        }
+                    },
+                    labels: {
+                        style: {
+                            colors: '#ffffff' // Set the labels color to white
+                        }
                     }
                 },
                 yaxis: {
                     title: {
-                        text: "Number of Death"
+                        text: "Number of Death",
+                        style: {
+                            color: '#ffffff' // Set the title color to white
+                        }
+                    },
+                    labels: {
+                        style: {
+                            colors: '#ffffff' // Set the labels color to white
+                        }
                     }
                 },
                 title: {
                     text: titleText,
-                    align: "center"
+                    align: "center",
+                    style: {
+                        color: '#ffffff' // Set the title color to white
+                    }
                 },
                 plotOptions: {
                     bar: {
                         borderRadius: 10 // Add this property to make the bars rounded
                     }
                 },
-                colors: ['#FF0000'], // Set the bar color to red
+                colors: ['#0172e1'], // Set the bar color to blue
                 dataLabels: {
                     enabled: false // Disable data labels inside the chart
                 }

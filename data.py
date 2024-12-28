@@ -1,9 +1,9 @@
 import csv
 
 class dataSets():
-    def getDengue(self, year=None, region=None):
+    def getDengue(self, year=None, loc=None):
         # Open the CSV file in read mode
-        with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as file:
+        with open("static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv", mode="r") as file:
             # Read the file using csv.reader
             reader = csv.reader(file)
 
@@ -14,36 +14,37 @@ class dataSets():
             data = []
             for row in reader:
                 record = {
-                    "month": row[0].strip(),  # Month is in the first column (index 0)
-                    "year": row[1].strip(),   # Year is in the second column (index 1)
-                    "region": row[2].strip(), # Region is in the third column (index 2)
-                    "cases": int(row[3].strip()),  # Cases are in the fourth column (index 3)
-                    "death": int(row[4].strip())   # Death is in the fifth column (index 4)
+                    "loc": row[0].strip(),    # Location is in the first column (index 0)
+                    "cases": int(row[1].strip()),  # Cases are in the second column (index 1)
+                    "deaths": int(row[2].strip()), # Deaths are in the third column (index 2)
+                    "date": self.correct_date_format(row[3].strip()),   # Date is in the fourth column (index 3)
+                    "region": row[4].strip()  # Region is in the fifth column (index 4)
                 }
                 data.append(record)
 
         # Filter by year if provided
         if year:
-            data = [record for record in data if record["year"] == str(year)]
+            data = [record for record in data if record["date"].split('/')[-1] == str(year)]
 
-        # Filter by region if provided
-        if region:
-            data = [record for record in data if record["region"].lower() == region.lower()]
+        # Filter by location if provided
+        if loc:
+            data = [record for record in data if record["loc"].lower() == loc.lower()]
 
-        # Sum cases and deaths by year if no specific year or region is provided
-        if not year and not region:
+        # Sum cases and deaths by year if no specific year or location is provided
+        if not year and not loc:
             summary = {}
             for record in data:
-                if record["year"] not in summary:
-                    summary[record["year"]] = {"cases": 0, "death": 0}
-                summary[record["year"]]["cases"] += record["cases"]
-                summary[record["year"]]["death"] += record["death"]
+                record_year = record["date"].split('/')[-1]
+                if record_year not in summary:
+                    summary[record_year] = {"cases": 0, "deaths": 0}
+                summary[record_year]["cases"] += record["cases"]
+                summary[record_year]["deaths"] += record["deaths"]
 
             # Convert the summary to the required JSON format
             response = {
                 "ph_dengue": {
                     "cases_series": [summary[year]["cases"] for year in summary],
-                    "death_series": [summary[year]["death"] for year in summary],
+                    "deaths_series": [summary[year]["deaths"] for year in summary],
                     "year_series": list(summary.keys())
                 }
             }
@@ -51,48 +52,58 @@ class dataSets():
             # Sum cases and deaths by month if year is provided
             summary = {}
             for record in data:
-                if record["month"] not in summary:
-                    summary[record["month"]] = {"cases": 0, "death": 0}
-                summary[record["month"]]["cases"] += record["cases"]
-                summary[record["month"]]["death"] += record["death"]
+                record_month = record["date"].split('/')[0]
+                if record_month not in summary:
+                    summary[record_month] = {"cases": 0, "deaths": 0}
+                summary[record_month]["cases"] += record["cases"]
+                summary[record_month]["deaths"] += record["deaths"]
 
             # Convert the summary to the required JSON format
             response = {
                 "ph_dengue": {
                     "cases_series": [summary[month]["cases"] for month in summary],
-                    "death_series": [summary[month]["death"] for month in summary],
+                    "deaths_series": [summary[month]["deaths"] for month in summary],
                     "month_series": list(summary.keys())
                 }
             }
-        elif region:
-            # Sum cases and deaths by month if region is provided
+        elif loc:
+            # Sum cases and deaths by month if location is provided
             summary = {}
             for record in data:
-                if record["month"] not in summary:
-                    summary[record["month"]] = {"cases": 0, "death": 0}
-                summary[record["month"]]["cases"] += record["cases"]
-                summary[record["month"]]["death"] += record["death"]
+                record_month = record["date"].split('/')[0]
+                if record_month not in summary:
+                    summary[record_month] = {"cases": 0, "deaths": 0}
+                summary[record_month]["cases"] += record["cases"]
+                summary[record_month]["deaths"] += record["deaths"]
 
             # Convert the summary to the required JSON format
             response = {
                 "ph_dengue": {
                     "cases_series": [summary[month]["cases"] for month in summary],
-                    "death_series": [summary[month]["death"] for month in summary],
+                    "deaths_series": [summary[month]["deaths"] for month in summary],
                     "month_series": list(summary.keys())
                 }
             }
         else:
-            # Sort data by month and region
-            sorted_data = sorted(data, key=lambda x: (x["year"], x["region"]))
+            # Sort data by date and location
+            sorted_data = sorted(data, key=lambda x: (x["date"], x["loc"]))
 
             # Convert the sorted data to the required JSON format
             response = {"ph_dengue": sorted_data}
 
         return response
+
+    def correct_date_format(self, date_str):
+        parts = date_str.split('/')
+        if len(parts[0]) == 1:
+            parts[0] = '0' + parts[0]
+        if len(parts[1]) == 1:
+            parts[1] = '0' + parts[1]
+        return '/'.join(parts)
     
-    def getDengueCasesDeath(self, year=None, region=None):
+    def getDengueCasesDeath(self, year=None, loc=None):
         # Open the CSV file in read mode
-        with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as file:
+        with open("static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv", mode="r") as file:
             # Read the file using csv.reader
             reader = csv.reader(file)
 
@@ -100,37 +111,35 @@ class dataSets():
             headers = next(reader)
 
             # Extract the relevant data by index
-            data = {}
+            data = []
             for row in reader:
-                record_year = row[1].strip()
-                record_region = row[2].strip()
-                cases = int(row[3].strip())
-                death = int(row[4].strip())
-
-                if (record_year, record_region) not in data:
-                    data[(record_year, record_region)] = {"cases": 0, "death": 0}
-
-                data[(record_year, record_region)]["cases"] += cases
-                data[(record_year, record_region)]["death"] += death
+                record = {
+                    "loc": row[0].strip(),    # Location is in the first column (index 0)
+                    "cases": int(row[1].strip()),  # Cases are in the second column (index 1)
+                    "deaths": int(row[2].strip()), # Deaths are in the third column (index 2)
+                    "date": self.correct_date_format(row[3].strip()),   # Date is in the fourth column (index 3)
+                    "region": row[4].strip()  # Region is in the fifth column (index 4)
+                }
+                data.append(record)
 
         # Filter by year if provided
         if year:
-            data = {k: v for k, v in data.items() if k[0] == str(year)}
+            data = [record for record in data if record["date"].split('/')[-1] == str(year)]
 
-        # Filter by region if provided
-        if region:
-            data = {k: v for k, v in data.items() if k[1].lower() == region.lower()}
+        # Filter by location if provided
+        if loc:
+            data = [record for record in data if record["loc"].lower() == loc.lower()]
 
         # Sum cases and deaths
-        total_cases = sum(v["cases"] for v in data.values())
-        total_deaths = sum(v["death"] for v in data.values())
+        total_cases = sum(record["cases"] for record in data)
+        total_deaths = sum(record["deaths"] for record in data)
         response = {"ph_dengue": {"total_cases": total_cases, "total_deaths": total_deaths}}
 
         return response
     
-    def getDengueMostLeastCases(self, year=None, region=None):
+    def getDengueMostLeastCases(self, year=None, loc=None):
         # Open the CSV file in read mode
-        with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as file:
+        with open("static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv", mode="r") as file:
             # Read the file using csv.reader
             reader = csv.reader(file)
 
@@ -138,54 +147,81 @@ class dataSets():
             headers = next(reader)
 
             # Extract the relevant data by index
-            data = {}
+            data = []
             for row in reader:
-                record_year = row[1].strip()
-                record_region = row[2].strip()
-                cases = int(row[3].strip())
-                death = int(row[4].strip())
-
-                if (record_year, record_region) not in data:
-                    data[(record_year, record_region)] = {"cases": 0, "death": 0}
-
-                data[(record_year, record_region)]["cases"] += cases
-                data[(record_year, record_region)]["death"] += death
+                record = {
+                    "loc": row[0].strip(),    # Location is in the first column (index 0)
+                    "cases": int(row[1].strip()),  # Cases are in the second column (index 1)
+                    "deaths": int(row[2].strip()), # Deaths are in the third column (index 2)
+                    "date": self.correct_date_format(row[3].strip()),   # Date is in the fourth column (index 3)
+                    "region": row[4].strip()  # Region is in the fifth column (index 4)
+                }
+                data.append(record)
 
         # Filter by year if provided
         if year:
-            data = {k: v for k, v in data.items() if k[0] == str(year)}
+            data = [record for record in data if record["date"].split('/')[-1] == str(year)]
 
-        # Filter by region if provided
-        if region:
-            data = {k: v for k, v in data.items() if k[1].lower() == region.lower()}
+        # Filter by location if provided
+        if loc:
+            data = [record for record in data if record["loc"].lower() == loc.lower()]
 
-        # Find the region with most and least cases
-        if data:
-            most_cases = max(data.items(), key=lambda x: x[1]["cases"])
-            least_cases = min(data.items(), key=lambda x: x[1]["cases"])
+        if loc:
+            # Find the date with most and least cases for the provided location
+            if data:
+                most_cases_record = max(data, key=lambda x: x["cases"])
+                least_cases_record = min(data, key=lambda x: x["cases"])
 
-            response = {
-                "most_cases": {
-                    "year": most_cases[0][0],
-                    "region": most_cases[0][1],
-                    "cases": most_cases[1]["cases"],
-                    "death": most_cases[1]["death"]
-                },
-                "least_cases": {
-                    "year": least_cases[0][0],
-                    "region": least_cases[0][1],
-                    "cases": least_cases[1]["cases"],
-                    "death": least_cases[1]["death"]
+                response = {
+                    "most_cases": {
+                    "loc": most_cases_record["loc"],
+                    "date": most_cases_record["date"],
+                    "cases": most_cases_record["cases"],
+                    "deaths": most_cases_record["deaths"]
+                    },
+                    "least_cases": {
+                    "loc": least_cases_record["loc"],
+                    "date": least_cases_record["date"],
+                    "cases": least_cases_record["cases"],
+                    "deaths": least_cases_record["deaths"]
+                    }
                 }
-            }
+            else:
+                response = {"most_cases": None, "least_cases": None}
         else:
-            response = {"most_cases": None, "least_cases": None}
+            # Aggregate cases and deaths by location
+            summary = {}
+            for record in data:
+                if record["loc"] not in summary:
+                    summary[record["loc"]] = {"cases": 0, "deaths": 0}
+                summary[record["loc"]]["cases"] += record["cases"]
+                summary[record["loc"]]["deaths"] += record["deaths"]
+
+            # Find the location with most and least cases
+            if summary:
+                most_cases = max(summary.items(), key=lambda x: x[1]["cases"])
+                least_cases = min(summary.items(), key=lambda x: x[1]["cases"])
+
+                response = {
+                    "most_cases": {
+                        "loc": most_cases[0],
+                        "cases": most_cases[1]["cases"],
+                        "deaths": most_cases[1]["deaths"]
+                    },
+                    "least_cases": {
+                        "loc": least_cases[0],
+                        "cases": least_cases[1]["cases"],
+                        "deaths": least_cases[1]["deaths"]
+                    }
+                }
+            else:
+                response = {"most_cases": None, "least_cases": None}
 
         return response
 
 
     def getYear(self):
-        with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as files:
+        with open("static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv", mode="r") as files:
             # Read the file from CSV data inside the static directory
             reader = csv.reader(files)
             next(reader)
@@ -193,38 +229,40 @@ class dataSets():
             # Create a variable to store years as a set to prevent duplicates
             years = set()
 
-            for year in reader:
-                # Add the year (column index 1) to the set
-                years.add(year[1])
+            for row in reader:
+                # Add the year (extracted from the date column index 3) to the set
+                date = row[3].strip()
+                year = date.split('/')[-1]
+                years.add(year)
             
-            # Convert the set to a sorted list in descending order
-            nYears = sorted(list(years), reverse=False)
+            # Convert the set to a sorted list in ascending order
+            nYears = sorted(list(years))
             nnYears = {
                 'years': nYears
             }
 
             return nnYears
     
-    def getRegion(self):
-        with open("static/data/ph_dengue_cases2016-2020.csv", mode="r") as files:
+    def getLocations(self):
+        with open("static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv", mode="r") as files:
             # Read the file from CSV data inside the static directory
             reader = csv.reader(files)
             next(reader)
 
-            # Create a variable to store regions as a set to prevent duplicates
-            regions = set()
+            # Create a variable to store locations as a set to prevent duplicates
+            locations = set()
 
-            for region in reader:
-                # Add the region (column index 2) to the set
-                regions.add(region[2])
+            for row in reader:
+                # Add the location (column index 0) to the set
+                locations.add(row[0].strip())
             
             # Convert the set to a sorted list
-            nRegions = sorted(list(regions))
-            nnRegions = {
-                'regions': nRegions
+            nLocations = sorted(list(locations))
+            nnLocations = {
+                'locations': nLocations
             }
 
-            return nnRegions
+            return nnLocations
 
 
 if __name__ == "__main__":
