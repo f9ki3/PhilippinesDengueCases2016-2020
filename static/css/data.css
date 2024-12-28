@@ -1,0 +1,26 @@
+.bg-dark-blue{
+    background-color: #171a21;
+}
+
+.bg-accent-blue{
+    background-color: #1c222c;
+}
+
+#map {
+    height: 80vh; /* Adjust height to 80% of the viewport height */
+    width: 80vw; /* Adjust width to 80% of the viewport width */
+}
+
+.popover {
+    background-color: #f8f9fa; /* Light gray background */
+    border: 1px solid #4caf50; /* Green border */
+}
+.popover-header {
+    background-color: #4caf50; /* Green header background */
+    color: white;             /* White text */
+    font-weight: bold;        /* Bold text */
+}
+.popover-body {
+    color: #333;              /* Dark text color */
+    font-size: 14px;          /* Adjust font size */
+}

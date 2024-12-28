@@ -1,80 +1,59 @@
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
-import matplotlib.pyplot as plt
+import json
 
-# Load the dataset
-data_path = 'static/data/ph_dengue_cases2016-2020.csv'
-df = pd.read_csv(data_path)
+def summary_to_dict(summary):
+    lines = summary.split('\n')
+    summary_dict = {}
+    for line in lines:
+        if ':' in line:
+            key, value = line.split(':', 1)
+            summary_dict[key.strip()] = value.strip()
+    return summary_dict
 
-# Combine 'Months' and 'Year' into a single datetime column
-df['date'] = pd.to_datetime(df['Year'].astype(str) + '-' + df['Months'].astype(str) + '-01')
+def forecast_dengue():
+    file_path = "static/data/doh-epi-dengue-data-2016-2021 (Region-4-A).csv"
+    # Load the CSV file
+    data = pd.read_csv(file_path)
 
-# Set the date column as the index
-df.set_index('date', inplace=True)
+    # Ensure the 'date' field is in datetime format
+    data['date'] = pd.to_datetime(data['date'])
 
-# Group by date and sum the cases and deaths (if there are multiple regions)
-df = df.groupby('date').sum()
+    # Prepare the data for ARIMA model
+    monthly_data = data.set_index('date').resample('M').sum()
 
-# Check for missing values
-df = df.dropna()
+    # Fit ARIMA model for cases
+    model_cases = ARIMA(monthly_data['cases'], order=(5, 1, 0))
+    model_cases_fit = model_cases.fit()
 
-# Fit the ARIMA model for Dengue Cases
-model_cases = ARIMA(df['Dengue_Cases'], order=(5, 1, 0))
-model_cases_fit = model_cases.fit()
+    # Forecast the next 12 months for cases
+    forecast_cases = model_cases_fit.forecast(steps=12)
+    forecast_cases_index = pd.date_range(start=monthly_data.index[-1] + pd.DateOffset(months=1), periods=12, freq='M')
 
-# Print the summary statistics for Dengue Cases model
-print("ARIMA Model Summary for Dengue Cases:")
-print(model_cases_fit.summary())
+    # Calculate forecast errors for cases
+    forecast_cases_errors = model_cases_fit.resid
 
-# Fit the ARIMA model for Dengue Deaths
-model_deaths = ARIMA(df['Dengue_Deaths'], order=(5, 1, 0))
-model_deaths_fit = model_deaths.fit()
+    # Fit ARIMA model for deaths
+    model_deaths = ARIMA(monthly_data['deaths'], order=(5, 1, 0))
+    model_deaths_fit = model_deaths.fit()
 
-# Print the summary statistics for Dengue Deaths model
-print("ARIMA Model Summary for Dengue Deaths:")
-print(model_deaths_fit.summary())
+    # Forecast the next 12 months for deaths
+    forecast_deaths = model_deaths_fit.forecast(steps=12)
+    forecast_deaths_index = pd.date_range(start=monthly_data.index[-1] + pd.DateOffset(months=1), periods=12, freq='M')
 
-# Make predictions
-forecast_cases = model_cases_fit.forecast(steps=12)
-forecast_deaths = model_deaths_fit.forecast(steps=12)
+    # Calculate forecast errors for deaths
+    forecast_deaths_errors = model_deaths_fit.resid
 
-# Print the forecasted values
-print("Forecasted Dengue Cases for the next 12 months:")
-print(forecast_cases)
-print("Forecasted Dengue Deaths for the next 12 months:")
-print(forecast_deaths)
+    # Prepare the JSON output
+    forecast_data = {
+        "cases": forecast_cases.tolist(),
+        "deaths": forecast_deaths.tolist(),
+        "month": [date.month for date in forecast_cases_index],
+        "year": [date.year for date in forecast_cases_index],
+        "model_fit_cases": summary_to_dict(model_cases_fit.summary().as_text()),
+        "model_fit_deaths": summary_to_dict(model_deaths_fit.summary().as_text()),
+        "forecast_errors_cases": forecast_cases_errors.tolist(),
+        "forecast_errors_deaths": forecast_deaths_errors.tolist()
+    }
 
-# Calculate the percentage of deaths
-percentage_deaths = (forecast_deaths / forecast_cases) * 100
-
-# Plot the results
-plt.figure(figsize=(10, 6))
-plt.plot(df['Dengue_Cases'], label='Historical Dengue Cases')
-plt.plot(forecast_cases, label='Forecast Dengue Cases', color='red')
-plt.xlabel('Date')
-plt.ylabel('Dengue Cases')
-plt.title('Dengue Cases Forecast')
-plt.legend()
-plt.show()
-
-plt.figure(figsize=(10, 6))
-plt.plot(df['Dengue_Deaths'], label='Historical Dengue Deaths')
-plt.plot(forecast_deaths, label='Forecast Dengue Deaths', color='red')
-plt.xlabel('Date')
-plt.ylabel('Dengue Deaths')
-plt.title('Dengue Deaths Forecast')
-plt.legend()
-plt.show()
-
-plt.figure(figsize=(10, 6))
-plt.plot(percentage_deaths, label='Forecast Percentage of Deaths', color='green')
-plt.xlabel('Date')
-plt.ylabel('Percentage of Deaths')
-plt.title('Forecast Percentage of Deaths')
-plt.legend()
-plt.show()
-
-# Save the forecast to a CSV file
-forecast_cases.to_csv('/Users/mac/Desktop/PhilippinesDengueCases2016-2020/dengue_cases_forecast.csv', header=True)
-forecast_deaths.to_csv('/Users/mac/Desktop/PhilippinesDengueCases2016-2020/dengue_deaths_forecast.csv', header=True)
-percentage_deaths.to_csv('/Users/mac/Desktop/PhilippinesDengueCases2016-2020/percentage_deaths_forecast.csv', header=True)
+    return forecast_data

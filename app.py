@@ -1,6 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from data import dataSets
 import pandas as pd
+from arima import *
+from heatmap import *
 
 app = Flask(__name__)
 
@@ -14,19 +16,29 @@ def getYears():
     data = dataSets().getYear()
     return jsonify(data)
 
-@app.route('/get_regions')
-def getRegions():
-    data = dataSets().getRegion()
+@app.route('/get_heatmap')
+def getHeat():
+    data = heatmap()
+    return jsonify(data)
+
+@app.route('/get_locations')
+def getLocations():
+    data = dataSets().getLocations()
+    return jsonify(data)
+
+@app.route('/get_prediction')
+def get_predict():
+    data = forecast_dengue()
     return jsonify(data)
 
 @app.route('/get_dengue')
 def getDengueData():
     # Get the filter parameters from the query string
     year = request.args.get('year', default=None, type=int)
-    region = request.args.get('region', default=None, type=str)
+    loc = request.args.get('location', default=None, type=str)
 
     # Use the parameters in your data fetching function
-    data = dataSets().getDengue(year, region)
+    data = dataSets().getDengue(year, loc)
 
     return jsonify(data)
 
@@ -34,10 +46,10 @@ def getDengueData():
 def getDengueDataCasesDeath():
     # Get the filter parameters from the query string
     year = request.args.get('year', default=None, type=int)
-    region = request.args.get('region', default=None, type=str)
+    location = request.args.get('location', default=None, type=str)
 
     # Use the parameters in your data fetching function
-    data = dataSets().getDengueCasesDeath(year, region)
+    data = dataSets().getDengueCasesDeath(year, location)
 
     return jsonify(data)
 
@@ -45,10 +57,10 @@ def getDengueDataCasesDeath():
 def getDengueMostLeastCases():
     # Get the filter parameters from the query string
     year = request.args.get('year', default=None, type=int)
-    region = request.args.get('region', default=None, type=str)
+    location = request.args.get('location', default=None, type=str)
 
     # Use the parameters in your data fetching function
-    data = dataSets().getDengueMostLeastCases(year, region)
+    data = dataSets().getDengueMostLeastCases(year, location)
 
     return jsonify(data)
 
