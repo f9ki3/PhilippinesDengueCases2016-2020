@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from data import dataSets
 import pandas as pd
+from arima import *
 
 app = Flask(__name__)
 
@@ -17,6 +18,11 @@ def getYears():
 @app.route('/get_locations')
 def getLocations():
     data = dataSets().getLocations()
+    return jsonify(data)
+
+@app.route('/get_prediction')
+def get_predict():
+    data = forecast_dengue()
     return jsonify(data)
 
 @app.route('/get_dengue')

@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col-12 col-md-6 mb-2">
                     <div class="d-flex flex-wrap align-items-center gap-2">
-                        <button class="btn me-1 bg-accent-blue text-light">Dashboard</button>
-                        <button class="btn me-1 bg-accent-blue text-light">Prediction</button>
+                        <button id="dashboard-btn" class="btn me-1 bg-accent-blue text-light">Dashboard</button>
+                        <button id="prediction-btn" class="btn me-1 bg-accent-blue text-light">Prediction</button>
                         <button class="btn me-1 bg-accent-blue text-light">FAQS</button>
                     </div>
                 </div>
@@ -34,7 +34,61 @@
                 </div>
             </div>
             
-            <div class="col-12">
+            <div class="col-12" id="dashboard">
+                <div class="row g-2 text-muted">
+                    <!-- Dengue Cases -->
+                    <div class="col-6 col-md-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
+                            <h1 id="cases">0</h1>
+                            <p>Dengue Cases</p>
+                        </div>
+                    </div>
+                    <!-- Dengue Death -->
+                    <div class="col-6 col-md-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
+                            <h1 id="death">0</h1>
+                            <p>Dengue Deaths</p>
+                        </div>
+                    </div>
+                    <!-- Most Cases -->
+                    <div class="col-6 col-md-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
+                            <h1 id="mostNo">0</h1>
+                            <p id="mostRegion">Most Cases</p>
+                        </div>
+                    </div>
+                    <!-- Least Cases -->
+                    <div class="col-6 col-md-3">
+                        <div class="bg-accent-blue text-light rounded p-3">
+                            <h1 id="leastNo">0</h1>
+                            <p id="leastRegion">Least Cases</p>
+                        </div>
+                    </div>
+                    
+    
+                    <!-- Cases Chart -->
+                    <div class="col-12 col-md-6">
+                        <div id="casesChart" class="bg-accent-blue text-light rounded p-3">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div id="deathChart" class="bg-accent-blue text-light rounded p-3">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-12">
+                        <div class="container" style="width: 80%; margin: auto; padding: 20px;">
+                            <h2 style="text-align: center;">Dengue Cases Heatmap - Philippine Regions</h2>
+                            <div id="heatmap"></div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="col-12" id="prediction-div" style="display: none;">
                 <div class="row g-2 text-muted">
                     <!-- Dengue Cases -->
                     <div class="col-6 col-md-3">
@@ -89,12 +143,6 @@
             </div>
         </div>
     </div>
-<!-- 
-    <div id="cases-chart"></div>
-    <div id="deaths-chart"></div>
-    <div id="percentage-chart"></div> -->
-
-    
 
 {% include "footer.html" %}
 </body>
