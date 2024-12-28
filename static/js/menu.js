@@ -1,19 +1,27 @@
+function toggleVisibility(showElement, hideElements) {
+    $(showElement).slideDown();
+    hideElements.forEach(function(element) {
+        $(element).slideUp();
+    });
+}
+
 $('#dashboard-btn').click(function() {
-    $('#dashboard').slideDown();
-    $('#prediction-div').slideUp();
-    $('#faq-div').slideUp();
+    toggleVisibility('#dashboard', ['#prediction-div', '#faq-div', '#faqs-div']);
     $('#dashboard-filter').show();
+    $('#title').show();
+    $('#title-faq').hide();
 });
 
 $('#prediction-btn').click(function() {
-    $('#dashboard').slideUp();
-    $('#prediction-div').slideDown();
+    toggleVisibility('#prediction-div', ['#dashboard', '#faq-div', '#faqs-div']);
     $('#dashboard-filter').hide();
-    $('#faq-div').slideUp();
+    $('#title').show();
+    $('#title-faq').hide();
 });
 
-$('#faq-btn').click(function() {
-    $('#dashboard').slideUp();
-    $('#prediction-div').slideUp();
-    $('#faq-div').slideDown();
+$('#faqs-btn').click(function() {
+    toggleVisibility('#faqs-div', ['#dashboard', '#prediction-div']);
+    $('#dashboard-filter').hide();
+    $('#title').hide();
+    $('#title-faq').show();
 });

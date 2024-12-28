@@ -2,19 +2,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Philippine Dengue Cases 2016 - 2020</title>
+    <title>Health Hive</title>
     {% include "header.html" %}
 </head>
 <body class="bg-dark-blue">
     <div class="container">
         <div class="row mt-4">
-            <h2 class="fw-bolder text-light mb-3">Region IV-A Dengue Cases: Regional Report and Insights</h2>
+            <h2 id="title" class="fw-bolder text-light mb-3">Region IV-A Dengue Cases: Regional Report and Insights</h2>
+            <h2 id="title-faq" style="display: none;" class="fw-bolder text-light mb-3">Frequently Asked Questions</h2>
             <div class="row">
                 <div class="col-12 col-md-6 mb-2">
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <button id="dashboard-btn" class="btn me-1 bg-accent-blue text-light">Dashboard</button>
                         <button id="prediction-btn" class="btn me-1 bg-accent-blue text-light">Prediction</button>
-                        <button class="btn me-1 bg-accent-blue text-light">FAQS</button>
+                        <button id="faqs-btn" class="btn me-1 bg-accent-blue text-light">FAQS</button>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-2">
@@ -143,6 +144,69 @@
                             <div id="heatmap"></div>
                         </div>
                     </div> -->
+                </div>
+            </div>
+
+            <div class="col-12" id="faqs-div" style="display: none;">
+                <div class="row g-2">
+                    <div class="col-12">
+                        <div class="bg-accent-blue text-light rounded p-3">
+                            <h5 class="mt-3">1. What is the current status of dengue cases in Region IV-A?</h5>
+                            <p>As of the latest regional report, Region IV-A (CALABARZON) has experienced a significant number of dengue cases this year. The report provides a detailed breakdown of the affected provinces, trends over time, and a comparison with previous years. While there has been a general increase in cases in certain areas, some regions have seen fluctuating trends due to factors like weather patterns and mosquito control efforts.</p>
+
+                            <h5 class="mt-5">2. Which provinces and cities in Region IV-A are most and least affected by dengue?</h5>
+                            <p>From 2016 to 2021, the province of Cavite recorded the highest number of dengue cases in Region IV-A. Factors such as high population density and urbanization in cities like Dasmariñas, Bacoor, and Imus contributed to this increase.</p>
+                            <p>In contrast, Lucena City in Quezon Province recorded the least number of dengue cases during this period. Lucena's relatively lower population density and better vector control programs have helped keep cases to a minimum.</p>
+
+                            <h5 class="mt-5">3. What are the dengue statistics for each province and city in Region IV-A?</h5>
+                            <p>Here is a breakdown of the dengue cases and dengue deaths reported in each province and city in Region IV-A (CALABARZON):</p>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <ul>
+                                        <li><strong>Cavite</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 44,169</li>
+                                                <li>Dengue Deaths: 170</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Laguna</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 42,013</li>
+                                                <li>Dengue Deaths: 108</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Batangas</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 28,465</li>
+                                                <li>Dengue Deaths: 108</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Rizal</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 27,686</li>
+                                                <li>Dengue Deaths: 216</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Quezon</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 18,211</li>
+                                                <li>Dengue Deaths: 41</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Lucena City</strong>
+                                            <ul>
+                                                <li>Dengue Cases: 2,633</li>
+                                                <li>Dengue Deaths: 10</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                            <p>These numbers reflect the dengue cases and dengue deaths in the region from 2016 to 2021. Cavite has the highest number of cases, while Quezon recorded the lowest number of dengue cases and deaths in the region.</p></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,3 +5,8 @@
 .bg-accent-blue{
     background-color: #1c222c;
 }
+
+#map {
+    height: 400px;
+    width: 100%;
+}
