@@ -45,7 +45,7 @@ function get_dengue_death(get_dengue) {
                 },
                 yaxis: {
                     title: {
-                        text: "Number of Cases"
+                        text: "Number of Death"
                     }
                 },
                 title: {
@@ -57,7 +57,10 @@ function get_dengue_death(get_dengue) {
                         borderRadius: 10 // Add this property to make the bars rounded
                     }
                 },
-                colors: ['#FF0000'] // Set the bar color to red
+                colors: ['#FF0000'], // Set the bar color to red
+                dataLabels: {
+                    enabled: false // Disable data labels inside the chart
+                }
             };
 
             // Destroy the existing chart if it exists
