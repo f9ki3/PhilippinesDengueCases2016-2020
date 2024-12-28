@@ -18,19 +18,22 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-2">
-                    <div class="d-flex flex-wrap align-items-center gap-2">
-                        <button class="btn ms-1 bg-accent-blue text-light" onclick="reset()">Reset</button>
-                        <!-- Dropdown for Regions -->
-                        <div class="dropdown">
-                            <button class="btn bg-accent-blue text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Locations
-                            </button>
-                            <ul class="dropdown-menu" id="location-buttons">
-                            </ul>
+                    <div id="dashboard-filter">
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <button class="btn ms-1 bg-accent-blue text-light" onclick="reset()">Reset</button>
+                            <!-- Dropdown for Regions -->
+                            <div class="dropdown">
+                                <button class="btn bg-accent-blue text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Locations
+                                </button>
+                                <ul class="dropdown-menu" id="location-buttons">
+                                </ul>
+                            </div>
+                            <!-- Buttons -->
+                            <div id="year-buttons" class="g-2"></div>
                         </div>
-                        <!-- Buttons -->
-                        <div id="year-buttons" class="g-2"></div>
                     </div>
+                    
                 </div>
             </div>
             
@@ -90,46 +93,47 @@
 
             <div class="col-12" id="prediction-div" style="display: none;">
                 <div class="row g-2 text-muted">
-                    <!-- Dengue Cases -->
-                    <div class="col-6 col-md-3">
-                        <div class="bg-accent-blue text-light rounded p-3">
-                            <h1 id="cases">0</h1>
-                            <p>Dengue Cases</p>
-                        </div>
-                    </div>
-                    <!-- Dengue Death -->
-                    <div class="col-6 col-md-3">
-                        <div class="bg-accent-blue text-light rounded p-3">
-                            <h1 id="death">0</h1>
-                            <p>Dengue Deaths</p>
-                        </div>
-                    </div>
-                    <!-- Most Cases -->
-                    <div class="col-6 col-md-3">
-                        <div class="bg-accent-blue text-light rounded p-3">
-                            <h1 id="mostNo">0</h1>
-                            <p id="mostRegion">Most Cases</p>
-                        </div>
-                    </div>
-                    <!-- Least Cases -->
-                    <div class="col-6 col-md-3">
-                        <div class="bg-accent-blue text-light rounded p-3">
-                            <h1 id="leastNo">0</h1>
-                            <p id="leastRegion">Least Cases</p>
-                        </div>
-                    </div>
-                    
+                    <div class="col-12 col-md-6">
+                        <div class="row g-2">
+                            <div class="col-6 col-md-6">
+                                <div class="bg-accent-blue text-light rounded p-3">
+                                    <h1 id="totalCases">0</h1>
+                                    <p>Cases Prediction</p>
+                                </div>
+                            </div>
+                            <!-- Least Cases -->
+                            <div class="col-6 col-md-6">
+                                <div class="bg-accent-blue text-light rounded p-3">
+                                    <h1 id="totalDeaths">0</h1>
+                                    <p">Deaths Prediction</p>
+                                </div>
+                            </div>
     
-                    <!-- Cases Chart -->
-                    <div class="col-12 col-md-6">
-                        <div id="casesChart" class="bg-accent-blue text-light rounded p-3">
-                            <!-- Chart will be rendered here -->
+                            <div class="col-12">
+                                <div id="chartPrediction" class="bg-accent-blue text-light rounded p-3">
+                                    <!-- Chart will be rendered here -->
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="col-12 col-md-6">
-                        <div id="deathChart" class="bg-accent-blue text-light rounded p-3">
-                            <!-- Chart will be rendered here -->
+                        <div class="col-12">
+                            <div id="tablePrediction" class="bg-accent-blue rounded p-3 pb-4">
+                                <h5 class="text-light mt-2">Predicated Data for the Next 12 Months</h5>
+                                <table>
+                                    <thead>
+                                        <tr class="text-light" style="border-top: 1px solid gray;">
+                                            <th class="pt-2 pb-2" style="width: 10%;">Year</th>
+                                            <th class="pt-2 pb-2" style="width: 10%;">Month</th>
+                                            <th class="pt-2 pb-2" style="width: 25%;">Cases</th>
+                                            <th class="pt-2 pb-2" style="width: 25%;">Deaths</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="predictionTableBody">
+                                        <!-- Data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 

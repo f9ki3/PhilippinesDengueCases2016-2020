@@ -1,17 +1,19 @@
 $('#dashboard-btn').click(function() {
-    $('#dashboard').show();
-    $('#prediction-div').hide();
-    $('#faq-div').hide();
+    $('#dashboard').slideDown();
+    $('#prediction-div').slideUp();
+    $('#faq-div').slideUp();
+    $('#dashboard-filter').show();
 });
 
 $('#prediction-btn').click(function() {
-    $('#dashboard').hide();
-    $('#prediction-div').show();
-    $('#faq').hide();
+    $('#dashboard').slideUp();
+    $('#prediction-div').slideDown();
+    $('#dashboard-filter').hide();
+    $('#faq-div').slideUp();
 });
 
 $('#faq-btn').click(function() {
-    $('#dashboard').hide();
-    $('#predicted').hide();
-    $('#faq').show();
+    $('#dashboard').slideUp();
+    $('#prediction-div').slideUp();
+    $('#faq-div').slideDown();
 });
