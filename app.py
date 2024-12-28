@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 from data import dataSets
 import pandas as pd
 from arima import *
+from heatmap import *
 
 app = Flask(__name__)
 
@@ -13,6 +14,11 @@ def dashboard():
 @app.route('/get_years')
 def getYears():
     data = dataSets().getYear()
+    return jsonify(data)
+
+@app.route('/get_heatmap')
+def getHeat():
+    data = heatmap()
     return jsonify(data)
 
 @app.route('/get_locations')
