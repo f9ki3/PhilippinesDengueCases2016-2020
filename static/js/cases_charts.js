@@ -79,6 +79,14 @@ function get_dengue_cases(get_dengue) {
                 colors: ['#0172e1'], // Set the bar color to blue
                 dataLabels: {
                     enabled: false // Disable data labels inside the chart
+                },
+                tooltip: {
+                    theme: 'dark', // Set the tooltip theme to dark
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: undefined,
+                        colors: ['#000000'] // Set the tooltip text color to black
+                    }
                 }
             };
 

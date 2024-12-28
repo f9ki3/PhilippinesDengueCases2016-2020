@@ -58,6 +58,13 @@ $(document).ready(function() {
                     labels: {
                         colors: '#FFFFFF'
                     }
+                }, tooltip: {
+                    theme: 'dark', // Set the tooltip theme to dark
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: undefined,
+                        colors: ['#000000'] // Set the tooltip text color to black
+                    }
                 }
             };
 
