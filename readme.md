@@ -12,7 +12,6 @@ Health Hive is a data visualization project that provides insightful analysis of
 - **Frontend**: HTML, CSS, JavaScript (apeks.js for visualizations)
 - **Backend**: Python (Flask framework)
 - **Database**: MySQL
-- **Hosting**: Deployed on a local server or cloud platform
 
 ## Installation Instructions
 1. **Clone the Repository**
